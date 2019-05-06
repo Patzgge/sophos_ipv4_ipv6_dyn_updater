@@ -24,14 +24,14 @@ if [ -f "$lastipfile" ]; then
 		echo "IPv4 ist gleich"
 	else
 		sed -i "s/$lastipv4/$currentipv4/g" /etc/lastip.txt
-    wget -q -O --no-check-certificate "${updateurlipv4}"
+		wget -q -O --no-check-certificate "${updateurlipv4}"
 	fi
 
 	if [ "$currentipv6" == "$lastipv6" ]; then
 		echo "IPv6 ist gleich"
 	else
 		sed -i "s/$lastipv6/$currentipv6/g" /etc/lastip.txt
-    wget -q -O --no-check-certificate "${updateurlipv6}"
+		wget -q -O --no-check-certificate "${updateurlipv6}"
 	fi
 
 else
