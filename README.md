@@ -12,4 +12,4 @@
           */15 * * * * /etc/freedns_updater.sh"
 8. press ESC and leave crontab with ":q" again
 
-Now the Bash Script is called every 5 minutes via a cronjob
+Now the Bash Script is called every 5/15 minutes via a cronjob
