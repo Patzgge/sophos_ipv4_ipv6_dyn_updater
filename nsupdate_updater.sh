@@ -40,12 +40,16 @@ updateurlbaseipv6="@ipv4.nsupdate.info/nic/update?myip="
 updateurlipv4="https://"$hostname":"$apitoken$updateurlbaseipv4$currentipv4
 updateurlipv6="https://"$hostname":"$apitoken$updateurlbaseipv6$currentipv6
 
+#Check if lastip.txt File exists
 if [ -f "$lastipfile" ]; then
+  #Check if lastip variable are empty
   if [ -z "$lastipv4" ]; then
     sed -i "s/ipv4=/ipv4=$currentipv4/g" $lastipfile
   else
+    #Check if current IPv4 and last IPv4 is the same
     if [ "$currentipv4" == "$lastipv4" ]; then
       echo "Local IPv4 ist gleich"
+      #Check if current DNS IPv4 and last IPv4 is the same
       if [ "$currentipv4" == "$dnsipv4" ]; then
         echo "DNS IPv4 ist gleich"
       else
@@ -57,12 +61,14 @@ if [ -f "$lastipfile" ]; then
       echo "IPv4 wurde geupdated"
     fi
   fi
-
+  #Check if last IPv6 variable are empty
   if [ -z "$lastipv6" ]; then
     sed -i "s/ipv6=/ipv6=$currentipv6/g" $lastipfile
   else
+    #Check if curent IPv6 and last IPv6 are the same
     if [ "$currentipv6" == "$lastipv6" ]; then
       echo "Local IPv6 ist gleich"
+      #Check if current DNS IPv6 and last IPv6 is the same
       if [ "$currentipv6" == "$dnsipv6" ]; then
         echo "DNS IPv6 ist gleich"
       else
