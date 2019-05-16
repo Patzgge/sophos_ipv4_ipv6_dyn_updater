@@ -1,5 +1,6 @@
 #!/bin/sh
 #NSUpdate.info updater script
+#GitHub Project created by Patzgge
 
 #Interface variable
 interface=ppp0
@@ -40,32 +41,39 @@ updateurlipv4="https://"$hostname":"$apitoken$updateurlbaseipv4$currentipv4
 updateurlipv6="https://"$hostname":"$apitoken$updateurlbaseipv6$currentipv6
 
 if [ -f "$lastipfile" ]; then
+  if [ -z "$lastipv4" ]; then
+    sed -i "s/ipv4=/ipv4=$currentipv4/g" $lastipfile
+  else
+    if [ "$currentipv4" == "$lastipv4" ]; then
+      echo "Local IPv4 ist gleich"
+      if [ "$currentipv4" == "$dnsipv4" ]; then
+        echo "DNS IPv4 ist gleich"
+      else
+        sed -i "s/$lastipv4/$currentipv4/g" $lastipfile && wget -q -O --no-check-certificate "${updateurlipv4}"
+        echo "IPv4 wurde geupdated"
+      fi
+    else
+      sed -i "s/$lastipv4/$currentipv4/g" $lastipfile && wget -q -O --no-check-certificate "${updateurlipv4}"
+      echo "IPv4 wurde geupdated"
+    fi
+  fi
 
-	if [ "$currentipv4" == "$lastipv4" ]; then
-		echo "Local IPv4 ist gleich"
-		if [ "$currentipv4" == "$dnsipv4" ]; then
-			echo "DNS IPv4 ist gleich"
-		else
-			sed -i "s/$lastipv4/$currentipv4/g" $lastipfile
-			get -q -O --no-check-certificate "${updateurlipv4}"
-		fi
-	else
-		sed -i "s/$lastipv4/$currentipv4/g" $lastipfile
-		wget -q -O --no-check-certificate "${updateurlipv4}"
-	fi
-
-	if [ "$currentipv6" == "$lastipv6" ]; then
-		echo "Local IPv6 ist gleich"
-                if [ "$currentipv6" == "$dnsipv6" ]; then
-                        echo "DNS IPv6 ist gleich"
-                else
-                        sed -i "s/$lastipv6/$currentipv6/g" $lastipfile
-                        get -q -O --no-check-certificate "${updateurlipv6}"
-                fi
-	else
-		sed -i "s/$lastipv6/$currentipv6/g" $lastipfile
-		wget -q -O --no-check-certificate "${updateurlipv6}"
-	fi
+  if [ -z "$lastipv6" ]; then
+    sed -i "s/ipv6=/ipv6=$currentipv6/g" $lastipfile
+  else
+    if [ "$currentipv6" == "$lastipv6" ]; then
+      echo "Local IPv6 ist gleich"
+      if [ "$currentipv6" == "$dnsipv6" ]; then
+        echo "DNS IPv6 ist gleich"
+      else
+        sed -i "s/$lastipv6/$currentipv6/g" $lastipfile && wget -q -O --no-check-certificate "${updateurlipv6}"
+        echo "IPv6 wurde geupdated"
+      fi
+    else
+      sed -i "s/$lastipv6/$currentipv6/g" $lastipfile && wget -q -O --no-check-certificate "${updateurlipv6}"
+      echo "IPv6 wurde geupdated"
+    fi
+  fi
 
 else
 	echo -e "ipv4=1.1.1.1\nipv6=2001::1" > $lastipfile
