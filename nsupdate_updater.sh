@@ -1,5 +1,6 @@
 #!/bin/sh
 #NSUpdate.info updater script
+#GitHub Project created by Patzgge
 
 echo "---------------------------------------"
 current_date=$(date "+%d.%m.%Y")
